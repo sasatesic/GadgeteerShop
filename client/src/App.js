@@ -1,7 +1,9 @@
 import React from 'react';
+import Container from '@material-ui/core/Container';
+
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
-import Container from '@material-ui/core/Container';
+import HomeScreen from './screens/HomeScreen';
 
 function App() {
   return (
@@ -9,7 +11,7 @@ function App() {
       <Header />
       <main>
         <Container maxWidth={'xl'}>
-          <h1>Welcome</h1>
+          <HomeScreen />
         </Container>
       </main>
       <Footer />
