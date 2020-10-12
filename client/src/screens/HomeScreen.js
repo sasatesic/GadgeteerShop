@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
 import Product from '../components/product/Product';
 import products from '../products';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +26,17 @@ const useStyles = makeStyles((theme) => ({
 
 const HomeScreen = () => {
   const classes = useStyles();
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await axios.get('/api/products');
+
+      setProducts(data);
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
     <>

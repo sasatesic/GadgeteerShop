@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 import { makeStyles } from '@material-ui/core/styles';
-import products from '../products';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import { Grid, Typography, Divider, Button } from '@material-ui/core';
@@ -77,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductScreen = ({ match }) => {
   const classes = useStyles();
-  const product = products.find((p) => p._id === match.params.id);
+  const [product, setProduct] = useState({});
   const {
     name,
     rating,
@@ -88,11 +89,21 @@ const ProductScreen = ({ match }) => {
     countInStock,
   } = product;
 
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`/api/products/${match.params.id}`);
+
+      setProduct(data);
+    };
+
+    match.params.id && fetchProduct();
+  }, []);
+
   return (
     <>
       <Grid container className={classes.heading} spacing={3}>
         <Grid item md={6}>
-          <Card raised='true' className={classes.root}>
+          <Card raised={true} className={classes.root}>
             <CardMedia
               component='img'
               alt='Contemplative Reptile'
@@ -110,7 +121,7 @@ const ProductScreen = ({ match }) => {
             <Rating
               className={classes.rating}
               name='read-only'
-              value={rating}
+              value={rating ? rating : 0}
               precision={0.5}
               readOnly
             />
@@ -126,7 +137,7 @@ const ProductScreen = ({ match }) => {
         </Grid>
         <Grid item md={3}>
           <div className={classes.root}>
-            <Card raised='true'>
+            <Card raised={true}>
               <List component='nav' aria-label='main mailbox folders'>
                 <ListItem>
                   <Typography className={classes.listPriceTitle}>
