@@ -97,7 +97,7 @@ const ProductScreen = ({ match }) => {
     };
 
     match.params.id && fetchProduct();
-  }, []);
+  }, [match]);
 
   return (
     <>
